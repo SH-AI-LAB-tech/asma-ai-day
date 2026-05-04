@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Asma School — A Question for You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --bg-soft: #131829;
+      --ink: #f4f1ea;
+      --ink-soft: #a8a59c;
+      --accent: #ff6b35;
+      --gold: #f4c430;
+      --teal: #4ecdc4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Manrope', sans-serif;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255, 107, 53, 0.18), transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(78, 205, 196, 0.14), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(244, 196, 48, 0.06), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(244, 241, 234, 0.08);
+      margin-bottom: 2.5rem;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .date-badge {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding: 0.35rem 0.8rem;
+      border: 1px solid rgba(244, 241, 234, 0.15);
+      border-radius: 100px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.8s ease-out;
+    }
+
+    .eyebrow {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1rem, 2.2vw, 1.45rem);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .eyebrow-line {
+      display: inline;
+      white-space: nowrap;
+    }
+
+    .eyebrow-divider {
+      display: inline;
+      margin: 0 0.4rem;
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
+    .intro h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: var(--ink-soft);
+      margin-top: 1rem;
+    }
+
+    .intro h1 em {
+      font-style: italic;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .question-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      flex: 1;
+      animation: fadeUp 0.9s ease-out 0.15s backwards;
+    }
+
+    .question-card {
+      background: var(--bg-soft);
+      border: 1px solid rgba(244, 241, 234, 0.08);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .question-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent), var(--gold));
+      opacity: 0.7;
+    }
+
+    .question-card:hover {
+      border-color: rgba(255, 107, 53, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .lang-label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+    }
+
+    .question-text {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      line-height: 1.45;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    .question-card.rtl {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .question-card.rtl::before {
+      left: auto;
+      right: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(244, 241, 234, 0.08);
+      color: var(--ink-soft);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      flex-shrink: 0;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.25rem 1rem;
+      }
+
+      header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+      }
+
+      .logo {
+        font-size: 1.05rem;
+      }
+
+      .date-badge {
+        font-size: 0.55rem;
+        padding: 0.3rem 0.65rem;
+      }
+
+      .intro {
+        margin-bottom: 1.75rem;
+      }
+
+      .eyebrow {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding: 0 0.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        align-items: center;
+      }
+
+      .eyebrow-divider {
+        display: none;
+      }
+
+      .eyebrow-line {
+        display: block;
+      }
+
+      .intro h1 {
+        font-size: 1.4rem;
+        margin-top: 0.75rem;
+      }
+
+      .question-stack {
+        gap: 0.9rem;
+      }
+
+      .question-card {
+        padding: 1.1rem 1rem;
+        border-radius: 12px;
+      }
+
+      .question-card::before {
+        width: 3px;
+      }
+
+      .lang-label {
+        font-size: 0.6rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .question-text {
+        font-size: 1.02rem;
+        line-height: 1.5;
+      }
+
+      footer {
+        font-size: 0.55rem;
+        padding-top: 1.25rem;
+        margin-top: 1.25rem;
+      }
+    }
+
+    /* Very small phones (iPhone SE, etc.) */
+    @media (max-width: 380px) {
+      .eyebrow {
+        font-size: 0.85rem;
+      }
+
+      .question-text {
+        font-size: 0.98rem;
+      }
+
+      .question-card {
+        padding: 1rem 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Asma <span>School</span></div>
+      <div class="date-badge">AI Day · 2026</div>
+    </header>
+
+    <div class="intro">
+      <div class="eyebrow">
+        <span class="eyebrow-line">إنسان · آلة · أرض</span>
+        <span class="eyebrow-divider">·</span>
+        <span class="eyebrow-line">אדם · מכונה · אדמה</span>
+        <span class="eyebrow-divider">·</span>
+        <span class="eyebrow-line">Human · Machine · Earth</span>
+      </div>
+      <h1>Let's <em>think together</em></h1>
+    </div>
+
+    <div class="question-stack" id="questionStack">
+      <!-- Questions injected by JS -->
+    </div>
+
+    <footer>ASMA SCHOOL · ENVIRONMENTAL AI DAY</footer>
+  </div>
+
+  <script>
+    // 30 creative questions about AI and the environment
+    const questions = [
+      {
+        ar: "لو كان بإمكان الذكاء الاصطناعي زراعة مليار شجرة لكنه يستهلك طاقة مدينة صغيرة ليفعل ذلك، هل سيكون الأمر يستحق؟",
+        he: "אם בינה מלאכותית הייתה יכולה לשתול מיליארד עצים אבל צורכת את החשמל של עיר קטנה, האם זה היה שווה את זה?",
+        en: "If AI could plant a billion trees but used the energy of a small city to do it, would it be worth it?"
+      },
+      {
+        ar: "ماذا ستسأل ذكاءً اصطناعياً يستطيع التحدث مع الحيوانات؟",
+        he: "מה הייתם שואלים בינה מלאכותית שיכולה לדבר עם בעלי חיים?",
+        en: "What would you ask an AI that could speak with animals?"
+      },
+      {
+        ar: "لو استطاعت شجرة أن ترسل رسائل عبر الذكاء الاصطناعي، ماذا تظن أنها ستقول للبشر؟",
+        he: "אם עץ היה יכול לשלוח הודעות באמצעות בינה מלאכותית, מה לדעתכם הוא היה אומר לבני אדם?",
+        en: "If a tree could send messages through AI, what do you think it would say to humans?"
+      },
+      {
+        ar: "تخيل ذكاءً اصطناعياً يستطيع أن يرى 100 سنة إلى مستقبل كوكبنا. هل تريد أن تعرف ما يراه؟",
+        he: "דמיינו בינה מלאכותית שיכולה לראות 100 שנים קדימה אל עתיד כדור הארץ. הייתם רוצים לדעת מה היא רואה?",
+        en: "Imagine an AI that could see 100 years into the future of our planet. Would you want to know what it sees?"
+      },
+      {
+        ar: "من يجب أن يقرر كيف يُستخدم الذكاء الاصطناعي لحماية كوكبنا — العلماء، الحكومات، أم الجميع؟",
+        he: "מי צריך להחליט כיצד משתמשים בבינה מלאכותית כדי להגן על כדור הארץ — מדענים, ממשלות, או כולנו?",
+        en: "Who should decide how AI is used to protect our planet — scientists, governments, or everyone?"
+      },
+      {
+        ar: "لو كان عليك أن تختار: هاتفاً أذكى أم هواءً أنظف — أيهما يهمك أكثر؟",
+        he: "אם הייתם צריכים לבחור: טלפון חכם יותר או אוויר נקי יותר — מה חשוב לכם יותר?",
+        en: "If you had to choose: a smarter phone or cleaner air — which matters more to you?"
+      },
+      {
+        ar: "هل يمكن أن يصبح الذكاء الاصطناعي بارعاً في حماية الطبيعة لدرجة أن البشر يتوقفون عن الاهتمام بها بأنفسهم؟",
+        he: "האם בינה מלאכותית יכולה להיות כל כך טובה בהגנה על הטבע, שבני אדם יפסיקו להתעניין בו בעצמם?",
+        en: "Could AI become so good at protecting nature that humans stop caring about it themselves?"
+      },
+      {
+        ar: "إذا وضع الذكاء الاصطناعي خطة مثالية لإنقاذ الكوكب لكن لم يتبعها أحد، فمن سيكون المخطئ؟",
+        he: "אם בינה מלאכותית הייתה יוצרת תוכנית מושלמת להציל את כדור הארץ אבל אף אחד לא היה מבצע אותה, של מי הייתה האשמה?",
+        en: "If an AI made a perfect plan to save the planet but no one followed it, who would be at fault?"
+      },
+      {
+        ar: "ما هو الشيء الذي تفعله كل يوم ويمكن للذكاء الاصطناعي أن يفعله بدلاً منك — وهل تريد ذلك فعلاً؟",
+        he: "מה הדבר שאתם עושים כל יום שבינה מלאכותית הייתה יכולה לעשות במקומכם — והאם הייתם באמת רוצים בכך?",
+        en: "What's one thing you do every day that AI could do for you — and would you actually want it to?"
+      },
+      {
+        ar: "هل من الأفضل استخدام الذكاء الاصطناعي لإصلاح الضرر الذي سببناه، أم لتعليمنا كيف نتوقف عن التسبب فيه؟",
+        he: "האם עדיף להשתמש בבינה מלאכותית כדי לתקן את הנזק שגרמנו, או כדי ללמד אותנו איך להפסיק לגרום לו?",
+        en: "Is it better to use AI to fix the damage we've done, or to teach us how to stop causing it?"
+      },
+      {
+        ar: "لو كان لديك ذكاء اصطناعي شخصي، هل ستطلب منه أن يجعل حياتك أسهل، أم أن يجعل العالم أفضل؟",
+        he: "אם הייתה לכם בינה מלאכותית אישית, הייתם מבקשים ממנה להקל על חייכם, או לשפר את העולם?",
+        en: "If you had a personal AI, would you ask it to make your life easier, or to make the world better?"
+      },
+      {
+        ar: "هل يمكن أن يحلم الذكاء الاصطناعي بمستقبل أخضر؟ وإذا كان بإمكانه، فماذا سيرى؟",
+        he: "האם בינה מלאכותית יכולה לחלום על עתיד ירוק? ואם כן, מה היא הייתה רואה?",
+        en: "Can an AI dream of a green future? And if it could, what would it see?"
+      },
+      {
+        ar: "لو طلب منك ذكاء اصطناعي أن تتخلى عن شيء واحد لإنقاذ الكوكب، ماذا ستختار؟",
+        he: "אם בינה מלאכותית הייתה מבקשת מכם לוותר על דבר אחד כדי להציל את כדור הארץ, מה הייתם בוחרים?",
+        en: "If an AI asked you to give up one thing to save the planet, what would you choose?"
+      },
+      {
+        ar: "هل تثق بقرار يتخذه الذكاء الاصطناعي بشأن البيئة أكثر من قرار يتخذه إنسان؟ لماذا؟",
+        he: "האם הייתם סומכים יותר על החלטה של בינה מלאכותית בנוגע לסביבה מאשר על החלטה של בן אדם? למה?",
+        en: "Would you trust an AI's decision about the environment more than a human's? Why?"
+      },
+      {
+        ar: "تخيل أن المحيطات لها صوت بفضل الذكاء الاصطناعي. ماذا ستكون رسالتها الأولى للعالم؟",
+        he: "דמיינו שלאוקיינוסים יש קול הודות לבינה מלאכותית. מה תהיה ההודעה הראשונה שלהם לעולם?",
+        en: "Imagine the oceans have a voice thanks to AI. What would be their first message to the world?"
+      },
+      {
+        ar: "إذا تعلم الذكاء الاصطناعي من البشر، فماذا يجب أن نعلمه أولاً عن الأرض؟",
+        he: "אם בינה מלאכותית לומדת מבני אדם, מה הדבר הראשון שעלינו ללמד אותה על כדור הארץ?",
+        en: "If AI learns from humans, what's the first thing we should teach it about the Earth?"
+      },
+      {
+        ar: "هل صنع لوحة جميلة عن الطبيعة باستخدام الذكاء الاصطناعي يساعد البيئة، أم يستهلك منها؟",
+        he: "האם יצירת ציור יפהפה של הטבע באמצעות בינה מלאכותית עוזרת לסביבה, או מנצלת אותה?",
+        en: "Does creating a beautiful nature image with AI help the environment, or take from it?"
+      },
+      {
+        ar: "إذا كان الذكاء الاصطناعي يستطيع أن يخبرك بكمية الكربون التي تنتجها يومياً، هل ستريد أن تعرف؟",
+        he: "אם בינה מלאכותית הייתה יכולה לומר לכם כמה פחמן אתם מייצרים מדי יום, הייתם רוצים לדעת?",
+        en: "If AI could tell you how much carbon you produce every day, would you want to know?"
+      },
+      {
+        ar: "ما هو الاختراع الأخضر الذي تتمنى أن يصممه الذكاء الاصطناعي للمستقبل؟",
+        he: "איזו המצאה ירוקה הייתם רוצים שבינה מלאכותית תתכנן לעתיד?",
+        en: "What green invention do you wish AI would design for the future?"
+      },
+      {
+        ar: "هل يمكن للذكاء الاصطناعي أن يشعر بألم الكوكب، أم أنه يرى مجرد أرقام وبيانات؟",
+        he: "האם בינה מלאכותית יכולה להרגיש את הכאב של כדור הארץ, או שהיא רק רואה מספרים ונתונים?",
+        en: "Can AI feel the pain of the planet, or does it only see numbers and data?"
+      },
+      {
+        ar: "لو كان الذكاء الاصطناعي مزارعاً، هل سيزرع لإطعام الناس أم لإطعام الكوكب؟",
+        he: "אם בינה מלאכותית הייתה חקלאית, האם היא הייתה מגדלת כדי להאכיל אנשים או כדי להאכיל את כדור הארץ?",
+        en: "If AI were a farmer, would it grow food to feed people or to feed the planet?"
+      },
+      {
+        ar: "ما الفرق بين ذكاء بشري وذكاء اصطناعي حين يتعلق الأمر بحب الطبيعة؟",
+        he: "מה ההבדל בין אינטליגנציה אנושית לבינה מלאכותית כשמדובר באהבת הטבע?",
+        en: "What's the difference between human and artificial intelligence when it comes to loving nature?"
+      },
+      {
+        ar: "إذا أصبح الذكاء الاصطناعي صديقاً لكوكب الأرض، هل سيشعر بالحزن عندما تختفي الغابات؟",
+        he: "אם בינה מלאכותית תהפוך לחברה של כדור הארץ, האם היא תרגיש עצובה כשייעלמו היערות?",
+        en: "If AI became a friend to the Earth, would it feel sad when forests disappear?"
+      },
+      {
+        ar: "ما هو السؤال الذي تخاف من أن تطرحه على الذكاء الاصطناعي عن مستقبل البيئة؟",
+        he: "מה השאלה שאתם פוחדים לשאול בינה מלאכותית על עתיד הסביבה?",
+        en: "What's a question you're afraid to ask an AI about the environment's future?"
+      },
+      {
+        ar: "هل تعتقد أن أطفال المستقبل سيرون الحيوانات في الطبيعة، أم فقط في صور صنعها الذكاء الاصطناعي؟",
+        he: "האם אתם חושבים שילדי העתיד יראו חיות בטבע, או רק בתמונות שייצרה בינה מלאכותית?",
+        en: "Do you think the children of the future will see animals in nature, or only in AI-generated pictures?"
+      },
+      {
+        ar: "إذا كان الذكاء الاصطناعي يستهلك الطاقة، فهل من العدل أن يطلب منا أن نوفرها؟",
+        he: "אם בינה מלאכותית צורכת אנרגיה, האם זה הוגן שהיא תבקש מאיתנו לחסוך בה?",
+        en: "If AI uses energy itself, is it fair for it to ask us to save energy?"
+      },
+      {
+        ar: "ما الذي يستطيع الإنسان فعله من أجل الكوكب أفضل من أي ذكاء اصطناعي؟",
+        he: "מה אדם יכול לעשות למען כדור הארץ טוב יותר מכל בינה מלאכותית?",
+        en: "What can a human do for the planet better than any AI?"
+      },
+      {
+        ar: "لو كان لديك دقيقة واحدة لتخبر الذكاء الاصطناعي عن كوكبنا، ماذا ستقول؟",
+        he: "אם הייתה לכם דקה אחת לספר לבינה מלאכותית על כדור הארץ שלנו, מה הייתם אומרים?",
+        en: "If you had one minute to tell an AI about our planet, what would you say?"
+      },
+      {
+        ar: "هل يمكن للذكاء الاصطناعي أن يعلمنا الإحساس بالطبيعة، أم أن هذا شيء بشري بحت؟",
+        he: "האם בינה מלאכותית יכולה ללמד אותנו להרגיש את הטבע, או שזה משהו אנושי בלבד?",
+        en: "Can AI teach us to feel nature, or is that something only humans can do?"
+      },
+      {
+        ar: "إذا أعطاك الذكاء الاصطناعي قوة لتغيير شيء واحد في علاقة الإنسان بالأرض، ماذا ستغيّر؟",
+        he: "אם בינה מלאכותית הייתה נותנת לכם כוח לשנות דבר אחד ביחס שבין האדם לכדור הארץ, מה הייתם משנים?",
+        en: "If AI gave you the power to change one thing about humans' relationship with the Earth, what would you change?"
+      }
+    ];
+
+    function pickRandomQuestion() {
+      const randomIndex = Math.floor(Math.random() * questions.length);
+      return questions[randomIndex];
+    }
+
+    function renderQuestion(q) {
+      const stack = document.getElementById('questionStack');
+      stack.innerHTML = `
+        <div class="question-card rtl">
+          <div class="lang-label">العربية</div>
+          <div class="question-text">${q.ar}</div>
+        </div>
+        <div class="question-card rtl">
+          <div class="lang-label">עברית</div>
+          <div class="question-text">${q.he}</div>
+        </div>
+        <div class="question-card">
+          <div class="lang-label">English</div>
+          <div class="question-text">${q.en}</div>
+        </div>
+      `;
+    }
+
+    // Show a random question every time the page loads
+    renderQuestion(pickRandomQuestion());
+  </script>
+</body>
+</html>
